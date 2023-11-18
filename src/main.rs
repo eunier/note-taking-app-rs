@@ -13,14 +13,14 @@ impl Sandbox for App {
     type Message = Message;
 
     fn new() -> Self {
-        todo!()
+        Self
     }
 
     fn title(&self) -> String {
-        todo!()
+        String::from("Notes")
     }
 
-    fn update(&mut self, message: Self::Message) {
+    fn update(&mut self, _message: Self::Message) {
         todo!()
     }
 
