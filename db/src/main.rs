@@ -1,6 +1,5 @@
-use std::env::current_dir;
-
 use serde::{Deserialize, Serialize};
+use std::env::current_dir;
 use surrealdb::engine::local::SpeeDb;
 use surrealdb::sql::Thing;
 use surrealdb::Surreal;
@@ -33,7 +32,8 @@ struct Record {
 async fn main() -> surrealdb::Result<()> {
     let binding = current_dir().unwrap();
     let current_dir_display = binding.display();
-    let address = format!("{current_dir_display}/db/database/note_taking_add_dev");
+    let address =
+        format!("{current_dir_display}/db/database/note_taking_add_dev");
 
     // Create database connection
     let db = Surreal::new::<SpeeDb>(address).await?;
@@ -42,25 +42,25 @@ async fn main() -> surrealdb::Result<()> {
     db.use_ns("test").use_db("test").await?;
 
     // Create a new person with a random id
-    let created: Vec<Record> = db
-        .create("person")
-        .content(Person {
-            title: "Founder & CEO",
-            name: Name {
-                first: "Tobie",
-                last: "Morgan Hitchcock",
-            },
-            marketing: true,
-        })
-        .await?;
-    dbg!(created);
+    // let created: Vec<Record> = db
+    //     .create("person")
+    //     .content(Person {
+    //         title: "Founder & CEO",
+    //         name: Name {
+    //             first: "Tobie",
+    //             last: "Morgan Hitchcock",
+    //         },
+    //         marketing: true,
+    //     })
+    //     .await?;
+    // dbg!(created);
 
     // Update a person record with a specific id
-    let updated: Option<Record> = db
-        .update(("person", "jaime"))
-        .merge(Responsibility { marketing: true })
-        .await?;
-    dbg!(updated);
+    // let updated: Option<Record> = db
+    //     .update(("person", "jaime"))
+    //     .merge(Responsibility { marketing: true })
+    //     .await?;
+    // dbg!(updated);
 
     // Select all people records
     let people: Vec<Record> = db.select("person").await?;
