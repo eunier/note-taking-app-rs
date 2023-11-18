@@ -1,3 +1,5 @@
+use std::env::current_dir;
+
 use serde::{Deserialize, Serialize};
 use surrealdb::engine::local::SpeeDb;
 use surrealdb::sql::Thing;
@@ -29,8 +31,12 @@ struct Record {
 
 #[tokio::main]
 async fn main() -> surrealdb::Result<()> {
+    let binding = current_dir().unwrap();
+    let current_dir_display = binding.display();
+    let address = format!("{current_dir_display}/db/database/note_taking_add_dev");
+
     // Create database connection
-    let db = Surreal::new::<SpeeDb>("database").await?;
+    let db = Surreal::new::<SpeeDb>(address).await?;
 
     // Select a specific namespace / database
     db.use_ns("test").use_db("test").await?;
