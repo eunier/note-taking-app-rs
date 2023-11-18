@@ -1,10 +1,4 @@
-[package]
-name = "note_taking_app"
-version = "0.1.0"
-edition = "2021"
-authors = ["Yunier Alvarez <yunieralvarez@gmail.com>"]
+[workspace]
+resolver = "2"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-iced = "0.10.0"
+members = ["ui"]
