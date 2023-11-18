@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
 
-members = ["db", "ui"]
+members = ["db", "ui_iced"]
