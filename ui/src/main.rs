@@ -1,6 +1,7 @@
 use iced::{widget::text, Element, Sandbox, Settings};
 
-fn main() -> Result<(), iced::Error> {
+#[tokio::main]
+async fn main() -> Result<(), iced::Error> {
     Notes::run(Settings::default())
 }
 

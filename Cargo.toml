@@ -1,4 +1,4 @@
 [workspace]
 resolver = "2"
 
-members = ["ui"]
+members = ["db", "ui"]
