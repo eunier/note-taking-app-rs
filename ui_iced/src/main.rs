@@ -5,9 +5,15 @@ use iced::{
 };
 
 #[tokio::main]
-async fn main() -> Result<(), iced::Error> {
-    db::connect().await.unwrap();
-    Notes::run(Settings::default())
+async fn main()  -> Result<(), Box<dyn std::error::Error>>{
+    // Notes::run(Settings::default())
+    // match db::connect().await {
+    //     Ok(db) => Ok(()),
+    //     Err(e) => Err(e),
+    // }
+    let db = db::connect().await?;
+    Ok(Notes::run(Settings::default())?)
+    // Ok(())
 }
 
 #[derive(Clone, Debug)]
