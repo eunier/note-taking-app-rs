@@ -1,5 +1,4 @@
-use std::error::Error;
-use db::Database;
+use db::{surrealdb, Database};
 use iced::{
     executor,
     widget::{button, container, row, text},
@@ -7,18 +6,18 @@ use iced::{
 };
 
 fn main() -> Result<(), iced::Error> {
+    db::connect();
     Notes::run(Settings::default())
 }
 
 #[derive(Clone, Debug)]
 struct File;
 
-struct Notes;
+struct Notes {}
 
 #[derive(Clone, Debug)]
 enum Message {
-    CreateNote,
-    NoteCreated(Result<(), ()>),
+    CreateNoteClick,
 }
 
 impl Application for Notes {
@@ -37,18 +36,15 @@ impl Application for Notes {
 
     fn update(&mut self, message: Self::Message) -> Command<Message> {
         match message {
-            Message::CreateNote => {
-                // Command::perform(create_new_note(), Message::NoteCreated)
-                create_new_note();
-                let db = Database::new();
-                Command::none();
+            Message::CreateNoteClick => {
+                dbg!("Click");
+                Command::none()
             }
-            Message::NoteCreated(_file) => Command::none(),
         }
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let create_note_btn = button("New").on_press(Message::CreateNote);
+        let create_note_btn = button("New").on_press(Message::CreateNoteClick);
         // create_note_btn
 
         // text("Hello").into()
@@ -67,8 +63,4 @@ impl Application for Notes {
     //     // let create_note_btn = iced::widget::button(content)
     //     // container(row!(widgets)).into()
     // }
-}
-
-fn create_new_note() {
-    dbg!("test");
 }
