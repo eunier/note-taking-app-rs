@@ -1,12 +1,12 @@
-use db::{surrealdb, Database};
 use iced::{
     executor,
     widget::{button, container, row, text},
     Application, Command, Element, Renderer, Settings, Theme,
 };
 
-fn main() -> Result<(), iced::Error> {
-    db::connect();
+#[tokio::main]
+async fn main() -> Result<(), iced::Error> {
+    db::connect().await.unwrap();
     Notes::run(Settings::default())
 }
 
