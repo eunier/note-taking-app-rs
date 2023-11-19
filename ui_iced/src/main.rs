@@ -1,7 +1,7 @@
 use iced::{
     executor,
-    widget::{container, row, text},
-    Application, Command, Element, Sandbox, Settings, Theme,
+    widget::{button, container, row, text},
+    Application, Command, Element, Error, Renderer, Settings, Theme,
 };
 
 fn main() -> Result<(), iced::Error> {
@@ -10,9 +10,10 @@ fn main() -> Result<(), iced::Error> {
 
 struct Notes;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 enum Message {
-    NewNote,
+    CreateNote,
+    NoteCreated,
 }
 
 impl Application for Notes {
@@ -29,16 +30,36 @@ impl Application for Notes {
         String::from("Notes")
     }
 
-    fn update(&mut self, _message: Self::Message) -> Command<Message> {
-        Command::none()
+    fn update(&mut self, message: Self::Message) -> Command<Message> {
+        match message {
+            Message::CreateNote => Command::none(),
+            Message::NoteCreated => Command::none(),
+        }
     }
 
-    fn view(&self) -> Element<'_, Self::Message> {
-        // let side_menu =
-        text("Hello").into()
-        // let mut widgets = vec![[]];
-        // // widgets.push(text("Hellot"));
-        // let new_note_btn = iced::widget::button(content)
-        // container(row!(widgets)).into()
+    fn view(&self) -> Element<'_, Message> {
+        let create_note_btn = button("New").on_press(Message::CreateNote);
+        // create_note_btn
+
+        // text("Hello").into()
+        container(create_note_btn).into()
     }
+
+    // fn view(&self) -> Element<'_, Message> {
+    //     let create_note_btn = button("New").on_press(Message::CreateNote);
+
+    //     // container(column!([create_note_btn]))
+    //     // let side_menu =
+    //     // widget::text("Hello").into()
+    //     // create_note_btn.into()
+    //     // let mut widgets = vec![[]];
+    //     // // widgets.push(text("Hellot"));
+    //     // let create_note_btn = iced::widget::button(content)
+    //     // container(row!(widgets)).into()
+    // }
+}
+
+fn create_new_note() -> Result<(), Error> {
+    print!("create_new_note");
+    todo!();
 }
