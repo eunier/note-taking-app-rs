@@ -7,5 +7,6 @@ authors = ["Yunier Alvarez <yunieralvarez@gmail.com>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+db = { path = "../db" }
 iced = { version = "0.10.0", features = ["debug"] }
 tokio = { version = "1.34.0", features = ["full"] }

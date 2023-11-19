@@ -1,5 +1,5 @@
 use std::error::Error;
-
+use db::Database;
 use iced::{
     executor,
     widget::{button, container, row, text},
@@ -40,7 +40,8 @@ impl Application for Notes {
             Message::CreateNote => {
                 // Command::perform(create_new_note(), Message::NoteCreated)
                 create_new_note();
-                Command::none()
+                let db = Database::new();
+                Command::none();
             }
             Message::NoteCreated(_file) => Command::none(),
         }
