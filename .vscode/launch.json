@@ -1,0 +1,119 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'db'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=db",
+                    "--package=db"
+                ],
+                "filter": {
+                    "name": "db",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'db'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=db",
+                    "--package=db"
+                ],
+                "filter": {
+                    "name": "db",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'ui_cosmic'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ui_cosmic",
+                    "--package=ui_cosmic"
+                ],
+                "filter": {
+                    "name": "ui_cosmic",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'ui_cosmic'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=ui_cosmic",
+                    "--package=ui_cosmic"
+                ],
+                "filter": {
+                    "name": "ui_cosmic",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'ui_iced'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=ui_iced",
+                    "--package=ui_iced"
+                ],
+                "filter": {
+                    "name": "ui_iced",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'ui_iced'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=ui_iced",
+                    "--package=ui_iced"
+                ],
+                "filter": {
+                    "name": "ui_iced",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

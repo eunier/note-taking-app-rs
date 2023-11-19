@@ -1,19 +1,24 @@
+use std::error::Error;
+
 use iced::{
     executor,
     widget::{button, container, row, text},
-    Application, Command, Element, Error, Renderer, Settings, Theme,
+    Application, Command, Element, Renderer, Settings, Theme,
 };
 
 fn main() -> Result<(), iced::Error> {
     Notes::run(Settings::default())
 }
 
+#[derive(Clone, Debug)]
+struct File;
+
 struct Notes;
 
 #[derive(Clone, Debug)]
 enum Message {
     CreateNote,
-    NoteCreated,
+    NoteCreated(Result<(), ()>),
 }
 
 impl Application for Notes {
@@ -32,8 +37,12 @@ impl Application for Notes {
 
     fn update(&mut self, message: Self::Message) -> Command<Message> {
         match message {
-            Message::CreateNote => Command::none(),
-            Message::NoteCreated => Command::none(),
+            Message::CreateNote => {
+                // Command::perform(create_new_note(), Message::NoteCreated)
+                create_new_note();
+                Command::none()
+            }
+            Message::NoteCreated(_file) => Command::none(),
         }
     }
 
@@ -59,7 +68,6 @@ impl Application for Notes {
     // }
 }
 
-fn create_new_note() -> Result<(), Error> {
-    print!("create_new_note");
-    todo!();
+fn create_new_note() {
+    dbg!("test");
 }
