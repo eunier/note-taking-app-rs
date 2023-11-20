@@ -1,3 +1,4 @@
+use db::surrealdb::{engine::local::Db, Surreal};
 use iced::{
     executor,
     widget::{button, container, row, text},
@@ -16,21 +17,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // settings.flags = Flags { db };
     Ok(Notes::run(Settings {
         // flags: Flags { db },
-        flags: 1.0,
+        flags: Flags { db: Some(db) },
         ..Default::default()
     })?)
     // Ok(())
 }
 
+#[derive(Default)]
 struct Flags {
     // db: Arc<Mutex<db::DB>>,
-    // db: Surreal<Db>,
-    db: f32,
+    db: Option<Surreal<Db>>,
+    // db: f32,
 }
 
 struct Notes {
-    // db: Surreal<Db>,
-    db: f32,
+    db: Option<Surreal<Db>>,
+    // db: f32,
 }
 
 #[derive(Clone, Debug)]
@@ -40,12 +42,12 @@ enum Message {
 
 impl Application for Notes {
     type Executor = executor::Default;
-    type Flags = f32;
+    type Flags = Flags;
     type Message = Message;
     type Theme = Theme;
 
     fn new(flags: Self::Flags) -> (Self, iced::Command<Self::Message>) {
-        (Self { db: flags }, Command::none())
+        (Self { db: flags.db }, Command::none())
     }
 
     fn title(&self) -> String {
