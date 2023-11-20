@@ -1,4 +1,8 @@
-use db::surrealdb::{engine::local::Db, Surreal};
+use db::{
+    create_note,
+    surrealdb::{self, engine::local::Db, Surreal},
+    Record,
+};
 use iced::{
     executor,
     widget::{button, container, row, text},
@@ -38,6 +42,7 @@ struct Notes {
 #[derive(Clone, Debug)]
 enum Message {
     CreateNoteClick,
+    NoteCreated(Result<Vec<Record>, surrealdb::Error>),
 }
 
 impl Application for Notes {
@@ -57,7 +62,18 @@ impl Application for Notes {
     fn update(&mut self, message: Self::Message) -> Command<Message> {
         match message {
             Message::CreateNoteClick => {
-                dbg!("Click");
+                match &self.db {
+                    Some(db) => {
+                        Command::perform(create_note(db), Message::NoteCreated);
+                    }
+                    _ => {
+                        ();
+                    }
+                }
+                Command::none()
+            }
+            Message::NoteCreated(_) => {
+                dbg!("created");
                 Command::none()
             }
         }

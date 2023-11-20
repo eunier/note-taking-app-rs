@@ -23,10 +23,65 @@ struct Responsibility {
     marketing: bool,
 }
 
-#[derive(Debug, Deserialize)]
-struct Record {
+#[derive(Debug, Deserialize, Clone)]
+pub struct Record {
     #[allow(dead_code)]
     id: Thing,
+}
+
+#[derive(Debug, Serialize)]
+struct Note {
+    content: String,
+}
+
+pub enum Error {
+    Message(String),
+}
+
+pub async fn create_note(
+    db: &Surreal<Db>,
+) -> Result<Vec<Record>, surrealdb::Error> {
+    // let created: Vec<Record> = db
+    // .create("person")
+    // .content(Person {
+    //     title: "Founder & CEO",
+    //     name: Name {
+    //         first: "Tobie",
+    //         last: "Morgan Hitchcock",
+    //     },
+    //     marketing: true,
+    // })
+    // .await?;
+
+    // return
+
+    let a: Vec<Record> = db
+        .create("note")
+        .content(Note {
+            content: String::new(),
+        })
+        .await?;
+
+    let db_call: Vec<Record> = db
+        .create("note")
+        .content(Note {
+            content: String::new(),
+        })
+        .await;
+
+    // let b: Vec<Record> = match db
+    //     .create("note")
+    //     .content(Note {
+    //         content: String::new(),
+    //     }).await {
+
+    //     }
+
+    let notes: Vec<Record> = db.select("note").await?;
+    dbg!(notes);
+
+    // db.select("note").await?
+    Ok(a)
 }
 
 pub async fn connect() -> Result<Surreal<Db>, surrealdb::Error> {
