@@ -1,4 +1,5 @@
 [workspace]
 resolver = "2"
 
-members = ["db", "ui_cosmic", "ui_iced"]
+members = ["db", "", "ui_iced"]
+exclude = ["ui_cosmic"]

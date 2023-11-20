@@ -5,21 +5,33 @@ use iced::{
 };
 
 #[tokio::main]
-async fn main()  -> Result<(), Box<dyn std::error::Error>>{
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Notes::run(Settings::default())
     // match db::connect().await {
     //     Ok(db) => Ok(()),
     //     Err(e) => Err(e),
     // }
     let db = db::connect().await?;
-    Ok(Notes::run(Settings::default())?)
+    // let mut settings = Settings::default();
+    // settings.flags = Flags { db };
+    Ok(Notes::run(Settings {
+        // flags: Flags { db },
+        flags: 1.0,
+        ..Default::default()
+    })?)
     // Ok(())
 }
 
-#[derive(Clone, Debug)]
-struct File;
+struct Flags {
+    // db: Arc<Mutex<db::DB>>,
+    // db: Surreal<Db>,
+    db: f32,
+}
 
-struct Notes {}
+struct Notes {
+    // db: Surreal<Db>,
+    db: f32,
+}
 
 #[derive(Clone, Debug)]
 enum Message {
@@ -28,12 +40,12 @@ enum Message {
 
 impl Application for Notes {
     type Executor = executor::Default;
-    type Flags = ();
+    type Flags = f32;
     type Message = Message;
     type Theme = Theme;
 
-    fn new(_flags: Self::Flags) -> (Self, iced::Command<Self::Message>) {
-        (Self {}, Command::none())
+    fn new(flags: Self::Flags) -> (Self, iced::Command<Self::Message>) {
+        (Self { db: flags }, Command::none())
     }
 
     fn title(&self) -> String {
