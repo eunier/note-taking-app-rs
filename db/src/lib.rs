@@ -34,13 +34,12 @@ struct Note {
     content: String,
 }
 
+#[derive(Debug, Clone)]
 pub enum Error {
     Message(String),
 }
 
-pub async fn create_note(
-    db: &Surreal<Db>,
-) -> Result<Vec<Record>, surrealdb::Error> {
+pub async fn create_note(db: &Surreal<Db>) -> Result<Vec<Record>, Error> {
     // let created: Vec<Record> = db
     // .create("person")
     // .content(Person {
@@ -55,19 +54,27 @@ pub async fn create_note(
 
     // return
 
-    let a: Vec<Record> = db
-        .create("note")
-        .content(Note {
-            content: String::new(),
-        })
-        .await?;
+    // let a: Vec<Record> = db
+    //     .create("note")
+    //     .content(Note {
+    //         content: String::new(),
+    //     })
+    //     .await?;
 
-    let db_call: Vec<Record> = db
+    let res = db
         .create("note")
         .content(Note {
             content: String::new(),
         })
-        .await;
+        .await
+        .map_err(|err| Error::Message(err.to_string()));
+
+    // let db_call: Vec<Record> = db
+    //     .create("note")
+    //     .content(Note {
+    //         content: String::new(),
+    //     })
+    //     .await;
 
     // let b: Vec<Record> = match db
     //     .create("note")
@@ -77,11 +84,16 @@ pub async fn create_note(
 
     //     }
 
-    let notes: Vec<Record> = db.select("note").await?;
+    let notes: Result<Vec<Record>, Error> = db
+        .select("note")
+        .await
+        .map_err(|err| Error::Message(err.to_string()));
     dbg!(notes);
 
     // db.select("note").await?
-    Ok(a)
+    // Ok(a)
+
+    res
 }
 
 pub async fn connect() -> Result<Surreal<Db>, surrealdb::Error> {
