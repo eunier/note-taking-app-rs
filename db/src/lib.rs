@@ -93,7 +93,9 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
         .await
         .map_err(|err| Error::Message(err.to_string()))
         .expect("should select all notes");
-    dbg!(notes);
+    dbg!(&notes);
+    let notes_len  = notes.len();
+    dbg!("{}", notes_len);
 
     // db.select("note").await?
     // Ok(a)
