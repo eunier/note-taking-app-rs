@@ -8,5 +8,5 @@ authors = ["Yunier Alvarez <yunieralvarez@gmail.com>"]
 
 [dependencies]
 db = { path = "../db" }
-iced = { version = "0.10.0", features = ["debug"] }
+iced = { version = "0.10.0", features = ["debug", "tokio"] }
 tokio = { version = "1.34.0", features = ["full"] }

@@ -40,7 +40,8 @@ pub enum Error {
     Message(String),
 }
 
-pub async fn create_note(db: &Arc<&Surreal<Db>>) -> Result<Vec<Record>, Error> {
+// TODO remove all expect
+pub async fn create_note() -> Result<Vec<Record>, Error> {
     // let created: Vec<Record> = db
     // .create("person")
     // .content(Person {
@@ -62,13 +63,15 @@ pub async fn create_note(db: &Arc<&Surreal<Db>>) -> Result<Vec<Record>, Error> {
     //     })
     //     .await?;
 
-    let res = db
+    let db = connect().await?;
+    let res: Vec<Record> = db
         .create("note")
         .content(Note {
             content: String::new(),
         })
         .await
-        .map_err(|err| Error::Message(err.to_string()));
+        .map_err(|err| Error::Message(err.to_string()))
+        .expect("should create a note");
 
     // let db_call: Vec<Record> = db
     //     .create("note")
@@ -85,63 +88,81 @@ pub async fn create_note(db: &Arc<&Surreal<Db>>) -> Result<Vec<Record>, Error> {
 
     //     }
 
-    let notes: Result<Vec<Record>, Error> = db
+    let notes: Vec<Record> = db
         .select("note")
         .await
-        .map_err(|err| Error::Message(err.to_string()));
+        .map_err(|err| Error::Message(err.to_string()))
+        .expect("should select all notes");
     dbg!(notes);
 
     // db.select("note").await?
     // Ok(a)
-
-    res
+    Ok(res)
 }
 
-pub async fn connect() -> Result<Arc<Surreal<Db>>, surrealdb::Error> {
+pub async fn connect() -> Result<Surreal<Db>, Error> {
     let binding = current_dir().unwrap();
     let current_dir_display = binding.display();
     let address =
         format!("{current_dir_display}/db/database/note_taking_add_dev");
 
     // Create database connection
-    let db = Surreal::new::<SpeeDb>(address).await?;
+    let db = Surreal::new::<SpeeDb>(address)
+        .await
+        .map_err(|err| Error::Message(err.to_string()))
+        .expect("should be able to connect to database");
 
     // Select a specific namespace / database
-    db.use_ns("test").use_db("test").await?;
+    db.use_ns("test")
+        .use_db("test")
+        .await
+        .map_err(|err| Error::Message(err.to_string()))
+        .expect("schould be able to select a namespace and database");
+    // db.use_ns("test").use_db("test").await?;
 
     // Create a new person with a random id
-    let created: Vec<Record> = db
-        .create("person")
-        .content(Person {
-            title: "Founder & CEO",
-            name: Name {
-                first: "Tobie",
-                last: "Morgan Hitchcock",
-            },
-            marketing: true,
-        })
-        .await?;
-    dbg!(created);
+    // let created: Vec<Record> = db
+    //     .create("person")
+    //     .content(Person {
+    //         title: "Founder & CEO",
+    //         name: Name {
+    //             first: "Tobie",
+    //             last: "Morgan Hitchcock",
+    //         },
+    //         marketing: true,
+    //     })
+    //     .await
+    //     .map_err(|err| Error::Message(err.to_string()))
+    //     .expect("should be able to create a new person");
 
-    // Update a person record with a specific id
-    let updated: Option<Record> = db
-        .update(("person", "jaime"))
-        .merge(Responsibility { marketing: true })
-        .await?;
-    dbg!(updated);
+    // dbg!(created);
 
-    // Select all people records
-    let people: Vec<Record> = db.select("person").await?;
-    dbg!(people);
+    // // Update a person record with a specific id
+    // let updated: Option<Record> = db
+    //     .update(("person", "jaime"))
+    //     .merge(Responsibility { marketing: true })
+    //     .await
+    //     .map_err(|err| Error::Message(err.to_string()))
+    //     .expect("should be able to update a person record");
+    // dbg!(updated);
 
-    // Perform a custom advanced query
-    let groups = db
-        .query("SELECT marketing, count() FROM type::table($table) GROUP BY marketing")
-        .bind(("table", "person"))
-        .await?;
-    dbg!(groups);
+    // // Select all people records
+    // let people: Vec<Record> = db
+    //     .select("person")
+    //     .await
+    //     .map_err(|err| Error::Message(err.to_string()))
+    //     .expect("should be able to select all people records");
+    // dbg!(people);
 
-    Ok(db.into())
+    // // Perform a custom advanced query
+    // let groups = db
+    //     .query("SELECT marketing, count() FROM type::table($table) GROUP BY marketing")
+    //     .bind(("table", "person"))
+    //     .await.map_err(|err| Error::Message(err.to_string())).expect("should be able to perform a custom query");
+    // dbg!(groups);
+
+    dbg!("connected to database");
+    Ok(db)
 }
 
 // use once_cell::sync::Lazy;

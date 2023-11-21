@@ -11,4 +11,5 @@ dotenv = "0.15.0"
 once_cell = "1.18.0"
 serde = { version = "1.0.192", features = ["derive"] }
 surrealdb = { version = "1.0.0", features = ["kv-speedb"] }
-tokio = { version = "1.34.0", features = ["macros", "rt-multi-thread"] }
+# tokio = { version = "1.34.0", features = ["macros", "rt-multi-thread"] }
+tokio = { version = "1.34.0", features = ["full"] }
