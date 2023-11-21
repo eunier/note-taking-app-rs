@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use std::env::current_dir;
+use std::sync::Arc;
 pub use surrealdb;
 use surrealdb::engine::local::{Db, SpeeDb};
 use surrealdb::sql::Thing;
@@ -39,7 +40,7 @@ pub enum Error {
     Message(String),
 }
 
-pub async fn create_note(db: &Surreal<Db>) -> Result<Vec<Record>, Error> {
+pub async fn create_note(db: &Arc<&Surreal<Db>>) -> Result<Vec<Record>, Error> {
     // let created: Vec<Record> = db
     // .create("person")
     // .content(Person {
@@ -96,7 +97,7 @@ pub async fn create_note(db: &Surreal<Db>) -> Result<Vec<Record>, Error> {
     res
 }
 
-pub async fn connect() -> Result<Surreal<Db>, surrealdb::Error> {
+pub async fn connect() -> Result<Arc<Surreal<Db>>, surrealdb::Error> {
     let binding = current_dir().unwrap();
     let current_dir_display = binding.display();
     let address =
@@ -140,7 +141,7 @@ pub async fn connect() -> Result<Surreal<Db>, surrealdb::Error> {
         .await?;
     dbg!(groups);
 
-    Ok(db)
+    Ok(db.into())
 }
 
 // use once_cell::sync::Lazy;

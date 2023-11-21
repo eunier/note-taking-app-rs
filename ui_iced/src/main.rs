@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use db::{
     create_note,
     surrealdb::{self, engine::local::Db, Surreal},
@@ -30,12 +32,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 #[derive(Default)]
 struct Flags {
     // db: Arc<Mutex<db::DB>>,
-    db: Option<Surreal<Db>>, // TODO remove option
-                             // db: f32,
+    db: Option<Arc<Surreal<Db>>>, // TODO remove option
+                                  // db: f32,
 }
 
 struct Notes {
-    db: Option<Surreal<Db>>,
+    db: Option<Arc<Surreal<Db>>>,
     // db: f32,
 }
 
@@ -63,11 +65,7 @@ impl Application for Notes {
         match &self.db {
             Some(db) => match message {
                 Message::CreateNoteClick => {
-                    // let create_note_cmd =  move  ||{
-                    //     create_note(db)
-                    // };
-
-                    Command::perform(move || create_note(&db), Message::NoteCreated)
+                    Command::perform(create_note(&db), Message::NoteCreated)
                 }
                 Message::NoteCreated(_) => {
                     dbg!("created");
@@ -76,6 +74,39 @@ impl Application for Notes {
             },
             None => Command::none(),
         }
+        // match &self.db {
+        //     Some(db) => match message {
+        //         Message::CreateNoteClick => {
+        //             // let create_note_cmd =  move  ||{
+        //             //     create_note(db)
+        //             // };
+
+        //             Command::perform(create_note(db), Message::NoteCreated)
+        //         }
+        //         Message::NoteCreated(_) => {
+        //             dbg!("created");
+        //             Command::none()
+        //         }
+        //     },
+        //     None => Command::none(),
+        // }
+
+        // match &self.db {
+        //     Some(db) => match message {
+        //         Message::CreateNoteClick => {
+        //             // let create_note_cmd =  move  ||{
+        //             //     create_note(db)
+        //             // };
+
+        //             Command::perform(create_note(db), Message::NoteCreated)
+        //         }
+        //         Message::NoteCreated(_) => {
+        //             dbg!("created");
+        //             Command::none()
+        //         }
+        //     },
+        //     None => Command::none(),
+        // }
     }
 
     fn view(&self) -> Element<'_, Message> {
