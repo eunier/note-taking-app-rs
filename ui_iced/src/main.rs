@@ -46,7 +46,7 @@ impl Application for Notes {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let create_note_btn = button("New").on_press(Message::CreateNoteClick);
+        let create_note_btn = button("New Database Note").on_press(Message::CreateNoteClick);
         container(create_note_btn).into()
     }
 }
