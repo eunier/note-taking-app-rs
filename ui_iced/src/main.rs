@@ -1,10 +1,4 @@
-use std::sync::Arc;
-
-use db::{
-    create_note,
-    surrealdb::{engine::local::Db, Surreal},
-    Record,
-};
+use db::{create_note, Record};
 use iced::{
     executor,
     widget::{button, container},
@@ -13,8 +7,8 @@ use iced::{
 
 #[derive(Clone, Debug)]
 enum Message {
-    CreateNoteClick,
-    NoteCreated(Result<Vec<Record>, db::Error>),
+    CreateDbNoteClicked,
+    DbNoteCreated(Result<Vec<Record>, db::Error>),
 }
 
 struct Notes;
@@ -35,10 +29,10 @@ impl Application for Notes {
 
     fn update(&mut self, message: Self::Message) -> Command<Message> {
         match message {
-            Message::CreateNoteClick => {
-                Command::perform(create_note(), Message::NoteCreated)
+            Message::CreateDbNoteClicked => {
+                Command::perform(create_note(), Message::DbNoteCreated)
             }
-            Message::NoteCreated(_) => {
+            Message::DbNoteCreated(_) => {
                 dbg!("created");
                 Command::none()
             }
@@ -46,7 +40,8 @@ impl Application for Notes {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let create_note_btn = button("New Database Note").on_press(Message::CreateNoteClick);
+        let create_note_btn =
+            button("New Database Note").on_press(Message::CreateDbNoteClicked);
         container(create_note_btn).into()
     }
 }
