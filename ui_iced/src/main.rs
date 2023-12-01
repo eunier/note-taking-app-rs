@@ -29,9 +29,7 @@ impl Application for Notes {
 
     fn update(&mut self, message: Self::Message) -> Command<Message> {
         match message {
-            Message::CreateDbNoteClicked => {
-                Command::perform(create_note(), Message::DbNoteCreated)
-            }
+            Message::CreateDbNoteClicked => Command::perform(create_note(), Message::DbNoteCreated),
             Message::DbNoteCreated(_) => {
                 dbg!("created");
                 Command::none()
@@ -40,8 +38,8 @@ impl Application for Notes {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let create_note_btn =
-            button("New Database Note").on_press(Message::CreateDbNoteClicked);
+        let create_note_btn = button("New Database Note").on_press(Message::CreateDbNoteClicked);
+
         container(create_note_btn).into()
     }
 }

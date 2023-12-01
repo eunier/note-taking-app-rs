@@ -67,7 +67,7 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
     let res: Vec<Record> = db
         .create("note")
         .content(Note {
-            content: String::new(),
+            content: "Qui officia laboris labore fugiat proident deserunt mollit ad occaecat reprehenderit quis. Voluptate ea sunt ex occaecat cupidatat cupidatat in irure ex eu nostrud do elit id. Nostrud magna non mollit nisi reprehenderit laborum ea enim voluptate. Id labore esse consectetur amet elit culpa sunt nisi.".to_string(),
         })
         .await
         .map_err(|err| Error::Message(err.to_string()))
@@ -94,7 +94,7 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
         .map_err(|err| Error::Message(err.to_string()))
         .expect("should select all notes");
     dbg!(&notes);
-    let notes_len  = notes.len();
+    let notes_len = notes.len();
     dbg!("{}", notes_len);
 
     // db.select("note").await?
@@ -105,8 +105,7 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
 pub async fn connect() -> Result<Surreal<Db>, Error> {
     let binding = current_dir().unwrap();
     let current_dir_display = binding.display();
-    let address =
-        format!("{current_dir_display}/db/database/note_taking_add_dev");
+    let address = format!("{current_dir_display}/db/database/note_taking_add_dev");
 
     // Create database connection
     let db = Surreal::new::<SpeeDb>(address)

@@ -4,40 +4,41 @@ use cosmic::{
 };
 
 fn main() -> Result<(), Error> {
-    Notes::run(Settings::default())
+    // Notes::run(Settings::default())
+    Ok(())
 }
 
-struct Notes;
+// struct Notes;
 
-#[derive(Debug)]
-enum Message {}
+// #[derive(Debug)]
+// enum Message {}
 
-impl Sandbox for Notes {
-    type Message = Message;
+// impl Sandbox for Notes {
+//     type Message = Message;
 
-    fn new() -> Self {
-        todo!()
-    }
+//     fn new() -> Self {
+//         todo!()
+//     }
 
-    fn title(&self) -> String {
-        todo!()
-    }
+//     fn title(&self) -> String {
+//         todo!()
+//     }
 
-    fn update(&mut self, message: Self::Message) {
-        todo!()
-    }
+//     fn update(&mut self, message: Self::Message) {
+//         todo!()
+//     }
 
-    fn view(
-        &self,
-        id: cosmic::iced_core::window::Id,
-    ) -> cosmic::iced::Element<'_, Self::Message> {
-        text("Hello").into()
-    }
+//     fn view(
+//         &self,
+//         id: cosmic::iced_core::window::Id,
+//     ) -> cosmic::iced::Element<'_, Self::Message> {
+//         text("Hello").into()
+//     }
 
-    fn close_requested(
-        &self,
-        id: cosmic::iced_core::window::Id,
-    ) -> Self::Message {
-        todo!()
-    }
-}
+//     fn close_requested(
+//         &self,
+//         id: cosmic::iced_core::window::Id,
+//     ) -> Self::Message {
+//         todo!()
+//     }
+// }

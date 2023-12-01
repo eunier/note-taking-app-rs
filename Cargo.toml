@@ -1,8 +1,8 @@
 [workspace]
 resolver = "2"
 
-members = ["db", "", "ui_iced"]
-exclude = ["ui_cosmic"]
+members = ["db", "ui_cosmic", "ui_iced"]
+# exclude = ["ui_cosmic"]
 
 [env]
 RUST_BACKTRACE = 1
