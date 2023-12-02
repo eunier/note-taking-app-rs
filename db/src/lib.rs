@@ -67,7 +67,7 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
     let res: Vec<Record> = db
         .create("note")
         .content(Note {
-            content: String::new(),
+            content: "Lorem ipsum dolor sit amet, consectetur duis reprehenderit dolore sunt deserunt dolore irure ipsum ex".to_string(),
         })
         .await
         .map_err(|err| Error::Message(err.to_string()))
@@ -94,7 +94,7 @@ pub async fn create_note() -> Result<Vec<Record>, Error> {
         .map_err(|err| Error::Message(err.to_string()))
         .expect("should select all notes");
     dbg!(&notes);
-    let notes_len  = notes.len();
+    let notes_len = notes.len();
     dbg!("{}", notes_len);
 
     // db.select("note").await?
